@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Appbar from '../components/Appbar';
 import SideBar from '../components/SideBar';
 import data from '../assets/data';
+import { initAuth } from '../actions';
 
 const mapStateToProps = () => ({
   // currentUser: state.common.currentUser,
@@ -11,15 +13,18 @@ const mapStateToProps = () => ({
 });
 
 /* eslint-disable */
-const App = props => (
-  <div>
+class App extends Component {
+  render(){
+    return (<div>
     <Appbar />
     <SideBar menus={data.menus} />
     <div>
-      {props.children}
+      {this.props.children}
     </div>
   </div>
 );
+  }
+}
 
 
 App.propTypes = {
@@ -28,4 +33,4 @@ App.propTypes = {
 };
 
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App))

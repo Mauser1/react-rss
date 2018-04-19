@@ -59,6 +59,7 @@ class SideBar extends Component {
                 leftIcon={menu.icon}
                 /* Todo: Add navigatable href */
                 /* eslint-disable */
+                onClick={()=>this.toggleSidebar()}
                containerElement={<Link to={menu.link} />}
                 /* eslint-enable */
               />

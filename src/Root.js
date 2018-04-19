@@ -11,18 +11,15 @@ import store from './store';
 
 const Root = () => (
   <Provider store={store}>
-
     <BrowserRouter>
       <App>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/feeds" component={FeedPage} />
-            <Route path="/add" component={AddFeedPage} />
-            <Route path="/settings" component={Settings} />
-            <Route path="*" component={NotFoundPage} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/feeds" component={FeedPage} />
+          <Route path="/add" component={AddFeedPage} />
+          <Route path="/settings" component={Settings} />
+          <Route path="*" component={NotFoundPage} />
+        </Switch>
       </App>
     </BrowserRouter>
   </Provider>
