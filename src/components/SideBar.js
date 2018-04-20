@@ -7,15 +7,17 @@ import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import { SIDE_BAR_OPEN, SIDE_BAR_CLOSE } from '../constants/actionTypes';
 
+
+const dummyAvatar = 'https://firebasestorage.googleapis.com/v0/b/rss-reader-1.appspot.com/o/user.png?alt=media&token=473e0481-453d-45c3-95a6-ed53d7544d40';
 class SideBar extends Component {
   static propTypes = {
     sideBar: PropTypes.bool.isRequired,
     /* eslint react/forbid-prop-types: 0 */
     menus: PropTypes.array.isRequired,
-    username: PropTypes.string.isRequired,
     closeSideBar: PropTypes.func.isRequired,
     openSideBar: PropTypes.func.isRequired,
-    avatar: PropTypes.string.isRequired,
+    username: PropTypes.string,
+    avatar: PropTypes.string,
   };
   toggleSidebar() {
     if (this.props.sideBar) {
@@ -46,10 +48,10 @@ class SideBar extends Component {
           <div style={styles.header}>
             <Avatar
               style={styles.header.avatar}
-              src={`${this.props.avatar}`}
+              src={`${this.props.avatar}` || dummyAvatar}
               size={50}
             />
-            <span>{this.props.username}</span>
+            <span>{this.props.username || 'None'}</span>
           </div>
           <div>
             {this.props.menus.map(menu => (

@@ -52,3 +52,9 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS';
 
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
+export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
+
+
+export const SET_USER = 'SET_USER';
+
+export const SET_NO_USER = 'SET_NO_USER';
