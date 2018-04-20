@@ -1,5 +1,12 @@
+import firebase from 'firebase';
 import { firebaseAuth, GoogleAuthProvider } from '../config';
-import { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_IN_FAIL, SET_USER, SET_NO_USER } from '../constants/actionTypes';
+import {
+  INIT_AUTH,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAIL,
+  ADD_FEED_SUCCESS,
+  ADD_FEED_FAILURE,
+} from '../constants/actionTypes';
 
 export function setAuth(user) {
   return {
@@ -9,7 +16,12 @@ export function setAuth(user) {
 }
 
 export function signInSuccess(signInData) {
-  const currentUser = { username: signInData.user.displayName, avatar: signInData.user.photoURL };
+  console.log(signInData);
+  const currentUser = {
+    username: signInData.user.displayName,
+    avatar: signInData.user.photoURL,
+    uid: signInData.user.uid,
+  };
   const payload = {
     currentUser,
     token: signInData.credential.idToken,
@@ -38,15 +50,43 @@ export function signInWithGoogle() {
   return authenticate(GoogleAuthProvider);
 }
 
-export function setUser(user) {
-  const currentUser = { username: user.displayName, avatar: user.photoURL };
-  const token = user.uid;
-  const payload = {
-    currentUser,
-    token,
-  };
-  return { type: SET_USER, payload };
+// api
+function databasePush(path, value) {
+  return new Promise((resolve, reject) => {
+    firebase
+      .database()
+      .ref(path)
+      .push(value, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
+      });
+  });
 }
-export function setNoUser() {
-  return { type: SET_NO_USER };
+
+function addFeedSuccess() {
+  return {
+    type: ADD_FEED_SUCCESS,
+  };
+}
+
+function addFeedFailure(error) {
+  return {
+    type: ADD_FEED_FAILURE,
+    payload: error,
+  };
+}
+
+export function addFeed(uid, name, link) {
+  const feed = { link, name };
+  return (dispatch) => {
+    databasePush(`/users/${uid}/feeds/`, feed)
+      .then(() => dispatch(addFeedSuccess()))
+      .catch((error) => {
+        dispatch(addFeedFailure(error));
+        console.log(error);
+      });
+  };
 }

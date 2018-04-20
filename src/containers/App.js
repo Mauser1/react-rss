@@ -7,12 +7,6 @@ import SideBar from '../components/SideBar';
 import data from '../assets/data';
 import { setUser, setNoUser } from '../actions';
 
-const mapStateToProps = () => ({
-  // currentUser: state.common.currentUser,
-  sideBar: false,
-  /* state.ui.sideBar */
-});
-
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
   setNoUser: () => dispatch(setNoUser()),
@@ -20,7 +14,6 @@ const mapDispatchToProps = dispatch => ({
 
 /* eslint-disable */
 class App extends Component {
- 
   render() {
     return (
       <div>
@@ -36,7 +29,7 @@ App.propTypes = {
   children: PropTypes.element,
   sideBar: PropTypes.bool.isRequired,
   setUser: PropTypes.func.isRequired,
-  setNoUser: PropTypes.func.isRequired
+  setNoUser: PropTypes.func.isRequired,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(null, mapDispatchToProps)(App));

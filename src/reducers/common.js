@@ -1,4 +1,8 @@
-import { SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from '../constants/actionTypes';
+import {
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAILURE,
+  ADD_FEED_FAILURE,
+} from '../constants/actionTypes';
 
 const defaultState = {
   appName: 'RSS Reader',
@@ -7,7 +11,9 @@ const defaultState = {
   viewChangeCounter: 0,
   currentUser: {
     username: 'Test_User',
-    avatar: 'https://firebasestorage.googleapis.com/v0/b/rss-reader-1.appspot.com/o/user.png?alt=media&token=473e0481-453d-45c3-95a6-ed53d7544d40',
+    avatar:
+      'https://firebasestorage.googleapis.com/v0/b/rss-reader-1.appspot.com/o/user.png?alt=media&token=473e0481-453d-45c3-95a6-ed53d7544d40',
+    uid: null,
   },
   error: '',
 };
@@ -23,7 +29,8 @@ const commonReducer = (state = defaultState, action) => {
       };
     case SIGN_IN_FAILURE:
       return { ...state, error: action.payload };
-
+    case ADD_FEED_FAILURE:
+      return { ...state, error: action.payload };
     default:
       return state;
   }

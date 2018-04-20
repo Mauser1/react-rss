@@ -39,11 +39,11 @@ export const ADD_FEED = 'ADD_FEED';
 export const REMOVE_FEED = 'REMOVE_FEED';
 
 // add feed
+
 export const ADD_FEED_PAGE_LOADED = 'ADD_FEED_PAGE_LOADED';
 export const ADD_FEED_PAGE_UNLOADED = 'ADD_FEED_PAGE_UNLOADED';
 export const FEED_SUBMITTED = 'FEED_SUBMITTED';
-
-export const UPDATE_FEED_INPUT = 'UPDATE_FEED_INPUT';
+export const LOAD_FEEDS = 'LOAD_FEEDS';
 
 // SIGN IN
 
@@ -54,7 +54,6 @@ export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
 
+export const ADD_FEED_SUCCESS = 'ADD_FEED_SUCCESS';
+export const ADD_FEED_FAILURE = 'ADD_FEED_FAILURE';
 
-export const SET_USER = 'SET_USER';
-
-export const SET_NO_USER = 'SET_NO_USER';
