@@ -1,9 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
-  entry: [
-    './src/index.js',
-  ],
+  entry: ['./src/index.js'],
   module: {
     rules: [
       {
@@ -16,6 +14,10 @@ module.exports = {
         exclude: /node_modules/,
         use: ['eslint-loader'],
       },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+      },
     ],
   },
   resolve: {
@@ -26,9 +28,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: './dist',
   },
