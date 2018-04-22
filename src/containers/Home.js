@@ -18,4 +18,3 @@ Home.propTypes = {
 };
 
 export default connect(mapStateToProps)(Home);
-

@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import toastr from 'toastr';
 import Appbar from '../components/Appbar';
 import SideBar from '../components/SideBar';
 import data from '../assets/data';
-import { setUser, setNoUser } from '../actions';
-
-const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(setUser(user)),
-  setNoUser: () => dispatch(setNoUser()),
-});
 
 /* eslint-disable */
 class App extends Component {
+  componentWillMount() {
+    if (!this.props.loggedIn) {
+      toastr.info('Please sign in to get access to your feeds');
+    }
+  }
+  componentWillUpdate(nextProps) {
+    if (!nextProps.loggedIn) {
+      return <Redirect to="/" />;
+    }
+  }
   render() {
     return (
       <div>
@@ -28,8 +33,10 @@ class App extends Component {
 App.propTypes = {
   children: PropTypes.element,
   sideBar: PropTypes.bool.isRequired,
-  setUser: PropTypes.func.isRequired,
-  setNoUser: PropTypes.func.isRequired,
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+const mapStateToProps = state => ({
+  sideBar: state.ui.sideBar,
+  loggedIn: state.common.loggedIn,
+});
+export default withRouter(connect(mapStateToProps)(App));
