@@ -7,6 +7,7 @@ import FeedPage from './containers/FeedPage';
 import AddFeedPage from './containers/AddFeedPage';
 import Settings from './containers/Settings';
 import NotFoundPage from './containers/NotFoundPage';
+import SignIn from './components/SignIn';
 import store from './store';
 
 const Root = () => (
@@ -16,6 +17,7 @@ const Root = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/feeds" component={FeedPage} />
+          <Route path="/signin" component={SignIn} />
           <Route path="/add" component={AddFeedPage} />
           <Route path="/settings" component={Settings} />
           <Route path="*" component={NotFoundPage} />

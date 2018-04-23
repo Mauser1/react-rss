@@ -6,7 +6,7 @@ import {
 
 const defaultState = {
   appName: 'RSS Reader',
-  loggedIn: false,
+  signedIn: false,
   token: null,
   viewChangeCounter: 0,
   currentUser: {
@@ -25,7 +25,7 @@ const commonReducer = (state = defaultState, action) => {
         ...state,
         currentUser: action.payload.currentUser,
         token: action.payload.token,
-        loggedIn: true,
+        signedIn: true,
       };
     case SIGN_IN_FAILURE:
       return { ...state, error: action.payload };

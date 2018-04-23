@@ -1,42 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter, Redirect } from 'react-router-dom';
-import toastr from 'toastr';
+import { withRouter } from 'react-router-dom';
+
+import firebase from 'firebase';
+import { signInSuccess, signOutSuccess, fetchFeedList } from '../actions';
 import Appbar from '../components/Appbar';
+
 import SideBar from '../components/SideBar';
 import data from '../assets/data';
 
-/* eslint-disable */
 class App extends Component {
-  componentWillMount() {
-    if (!this.props.loggedIn) {
-      toastr.info('Please sign in to get access to your feeds');
-    }
+  static propTypes = {
+    children: PropTypes.element,
+    signedIn: PropTypes.bool.isRequired,
+    signInSuccess: PropTypes.func.isRequired,
+    signOutSuccess: PropTypes.func.isRequired,
+    fetchFeedList: PropTypes.func.isRequired,
+  };
+  componentDidMount() {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      // is authed
+      if (user) {
+        this.props.signInSuccess(user);
+        this.props.fetchFeedList(user.uid);
+      } else {
+        this.props.signOutSuccess();
+      }
+    });
   }
-  componentWillUpdate(nextProps) {
-    if (!nextProps.loggedIn) {
-      return <Redirect to="/" />;
-    }
+  componentWillUnmount() {
+    this.removeListener();
   }
   render() {
+    const { signedIn } = this.props;
+    let menus;
+    if (signedIn) {
+      menus = data.signedIn;
+    } else {
+      menus = data.signedOut;
+    }
     return (
       <div>
         <Appbar />
-        <SideBar menus={data.menus} />
+        <SideBar menus={menus} />
         <div>{this.props.children}</div>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  children: PropTypes.element,
-  sideBar: PropTypes.bool.isRequired,
-};
-
 const mapStateToProps = state => ({
-  sideBar: state.ui.sideBar,
-  loggedIn: state.common.loggedIn,
+  signedIn: state.common.signedIn,
 });
-export default withRouter(connect(mapStateToProps)(App));
+const mapDispatchToProps = dispatch => ({
+  signInSuccess: signInData => dispatch(signInSuccess(signInData)),
+  signOutSuccess: () => dispatch(signOutSuccess()),
+  fetchFeedList: uid => dispatch(fetchFeedList(uid)),
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

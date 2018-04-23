@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SelectField, MenuItem } from 'material-ui';
 import FeedView from '../components/FeedView';
-import { setLatestFeed, fetchFeedItems } from '../actions';
+import { setLatestFeed, fetchFeedItems, fetchFeedList } from '../actions';
 
 // two elements: FeedList (as seen above), and FeedItems (article items from link)
 
@@ -12,10 +12,18 @@ class FeedPage extends Component {
     feedList: PropTypes.array.isRequired,
     feedItems: PropTypes.array.isRequired,
     uid: PropTypes.string.isRequired,
+    fetchFeedList: PropTypes.func.isRequired,
     fetchFeedItems: PropTypes.func.isRequired,
     setLatestFeed: PropTypes.func.isRequired,
   };
   state = { selectedFeed: '' };
+  componentDidMount() {
+    const { uid } = this.props;
+    if (!uid) {
+      alert('empty uid');
+    }
+    this.props.fetchFeedList(uid);
+  }
   handleChange = (e, index, value) => {
     /* Todo: All ACTIONS */
     const feedName = e.target.innerHTML;
@@ -25,7 +33,6 @@ class FeedPage extends Component {
     this.props.fetchFeedItems(feedLink);
     this.props.setLatestFeed(uid, feedName, feedLink);
   };
-
   renderFeedListSelector() {
     if (!this.props.feedList) {
       return <div> Loading ...</div>;
@@ -66,6 +73,7 @@ const mapStateToProps = state => ({
   uid: state.common.currentUser.uid,
 });
 const mapDispatchToProps = dispatch => ({
+  fetchFeedList: () => dispatch(fetchFeedList()),
   fetchFeedItems: feedLink => dispatch(fetchFeedItems(feedLink)),
   setLatestFeed: (uid, feedName, feedLink) =>
     dispatch(setLatestFeed(uid, feedName, feedLink)),
