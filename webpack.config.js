@@ -31,5 +31,6 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: './dist',
+    historyApiFallback: true,
   },
 };
