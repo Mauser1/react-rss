@@ -50,12 +50,12 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   signedIn: state.common.signedIn,
 });
-const mapDispatchToProps = (dispatch) => ({
-  signInSuccess: (signInData) => dispatch(signInSuccess(signInData)),
+const mapDispatchToProps = dispatch => ({
+  signInSuccess: signInData => dispatch(signInSuccess(signInData)),
   signOutSuccess: () => dispatch(signOutSuccess()),
-  fetchFeedList: (uid) => dispatch(fetchFeedList(uid)),
+  fetchFeedList: uid => dispatch(fetchFeedList(uid)),
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

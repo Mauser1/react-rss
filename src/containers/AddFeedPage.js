@@ -19,7 +19,7 @@ function isValidURL(str) {
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
     '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$',
-    'i'
+    'i',
   );
   return pattern.test(str);
 }
@@ -60,14 +60,14 @@ class AddFeedPage extends Component {
           value={this.state.feedName}
           hintText="Feed Name"
           name="feedName"
-          onChange={(e) => this.handleChange(e)}
+          onChange={e => this.handleChange(e)}
         />
         <br />
         <TextField
           value={this.state.feedLink}
           hintText="Feed URL"
           name="feedLink"
-          onChange={(e) => this.handleChange(e)}
+          onChange={e => this.handleChange(e)}
         />
         <br />
         <RaisedButton onClick={() => this.handleAddFeed()}>Add</RaisedButton>
@@ -75,8 +75,8 @@ class AddFeedPage extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({ uid: state.common.currentUser.uid });
-const mapDispatchToProps = (dispatch) => ({
+const mapStateToProps = state => ({ uid: state.common.currentUser.uid });
+const mapDispatchToProps = dispatch => ({
   addFeed: (uid, name, link) => dispatch(addFeed(uid, name, link)),
 });
 
