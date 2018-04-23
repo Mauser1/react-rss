@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, FlatButton, Paper } from 'material-ui';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
@@ -54,23 +54,41 @@ class AddFeedPage extends Component {
     this.setState({ feedName: '', feedLink: '' });
   }
   render() {
+    const style = {
+      container: {
+        minWidth: 420,
+        maxWidth: 500,
+        height: 'auto',
+        position: 'absolute',
+        top: '20%',
+        left: 0,
+        right: 0,
+        margin: 'auto',
+        padding: 20,
+        textAlign: 'center',
+      },
+      paper: { paddingTop: 10, paddingBottom: 10 },
+    };
     return (
-      <div>
-        <TextField
-          value={this.state.feedName}
-          hintText="Feed Name"
-          name="feedName"
-          onChange={e => this.handleChange(e)}
-        />
-        <br />
-        <TextField
-          value={this.state.feedLink}
-          hintText="Feed URL"
-          name="feedLink"
-          onChange={e => this.handleChange(e)}
-        />
-        <br />
-        <RaisedButton onClick={() => this.handleAddFeed()}>Add</RaisedButton>
+      <div style={style.container}>
+        <Paper style={style.paper}>
+          <TextField
+            value={this.state.feedName}
+            hintText="Feed Name"
+            name="feedName"
+            onChange={e => this.handleChange(e)}
+          />
+          <br />
+          <TextField
+            value={this.state.feedLink}
+            hintText="Feed URL"
+            name="feedLink"
+            onChange={e => this.handleChange(e)}
+          />
+          <br />
+          <FlatButton onClick={() => this.handleAddFeed()}>Add</FlatButton>
+
+        </Paper>
       </div>
     );
   }

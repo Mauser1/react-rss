@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './index.css';
 import App from './containers/App';
 import Home from './containers/Home';
 import FeedPage from './containers/FeedPage';

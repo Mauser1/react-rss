@@ -33,9 +33,9 @@ class App extends Component {
     this.removeListener();
   }
   render() {
+    const { signedIn } = this.props;
     let menus;
     if (signedIn) {
-      const { signedIn } = this.props;
       menus = data.signedIn;
     } else {
       menus = data.signedOut;

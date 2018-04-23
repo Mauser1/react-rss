@@ -1,31 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SelectField, MenuItem } from 'material-ui';
+
+import { SelectField, MenuItem, Paper } from 'material-ui';
 import FeedView from '../components/FeedView';
-import { setLatestFeed, fetchFeedItems, fetchFeedList } from '../actions';
+import { setLatestFeed, fetchFeedItems } from '../actions';
 
 // two elements: FeedList (as seen above), and FeedItems (article items from link)
 
 class FeedPage extends Component {
   static propTypes = {
-    feedList: PropTypes.array.isRequired,
     feedItems: PropTypes.array.isRequired,
+    feedList: PropTypes.array.isRequired,
     uid: PropTypes.string.isRequired,
-    fetchFeedList: PropTypes.func.isRequired,
     fetchFeedItems: PropTypes.func.isRequired,
     setLatestFeed: PropTypes.func.isRequired,
   };
   state = { selectedFeed: '' };
-  componentDidMount() {
-    const { uid } = this.props;
-    if (!uid) {
-      alert('empty uid');
-    }
-    this.props.fetchFeedList(uid);
-  }
   handleChange = (e, index, value) => {
-    /* Todo: All ACTIONS */
     const feedName = e.target.innerHTML;
     const feedLink = value;
     const { uid } = this.props;
@@ -45,6 +37,7 @@ class FeedPage extends Component {
         floatingLabelText="Feeds available"
         value={this.state.selectedFeed}
         onChange={this.handleChange}
+        style={{ marginLeft: '20px', width: '90%' }}
       >
         {this.props.feedList.map(feed => (
           <MenuItem value={feed.link}> {feed.name}</MenuItem>
@@ -54,14 +47,14 @@ class FeedPage extends Component {
   }
   render() {
     const style = {
-      display: 'flex',
-      flexFlow: 'column',
+      container: { margin: '0 auto', padding: '30px' },
     };
-
     return (
-      <div style={style}>
-        {this.renderFeedListSelector()}
-        <FeedView feedItems={this.props.feedItems} />
+      <div style={style.container}>
+        <Paper>
+          {this.renderFeedListSelector()}
+          <FeedView feedItems={this.props.feedItems} />
+        </Paper>
       </div>
     );
   }
@@ -73,7 +66,6 @@ const mapStateToProps = state => ({
   uid: state.common.currentUser.uid,
 });
 const mapDispatchToProps = dispatch => ({
-  fetchFeedList: () => dispatch(fetchFeedList()),
   fetchFeedItems: feedLink => dispatch(fetchFeedItems(feedLink)),
   setLatestFeed: (uid, feedName, feedLink) =>
     dispatch(setLatestFeed(uid, feedName, feedLink)),
