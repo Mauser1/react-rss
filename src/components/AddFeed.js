@@ -24,7 +24,7 @@ function isValidURL(str) {
   return pattern.test(str);
 }
 
-class AddFeedPage extends Component {
+class AddFeed extends Component {
   static propTypes = {
     addFeed: PropTypes.func.isRequired,
     uid: PropTypes.string.isRequired,
@@ -56,22 +56,25 @@ class AddFeedPage extends Component {
   render() {
     const style = {
       container: {
-        minWidth: 420,
-        maxWidth: 500,
-        height: 'auto',
-        position: 'absolute',
-        top: '20%',
-        left: 0,
-        right: 0,
+        width: 500,
         margin: 'auto',
-        padding: 20,
+        paddingTop: 40,
+        paddingBottom: 40,
         textAlign: 'center',
       },
-      paper: { paddingTop: 10, paddingBottom: 10 },
+      title: {
+        fontSize: 24,
+        marginBottom: 20,
+        color: '#757575',
+        textAlign: 'center',
+        paddingTop: 10,
+        paddingBottom: 10,
+      },
     };
     return (
       <div style={style.container}>
         <Paper style={style.paper}>
+          <h2 style={style.title}> Add </h2>
           <TextField
             value={this.state.feedName}
             hintText="Feed Name"
@@ -87,7 +90,6 @@ class AddFeedPage extends Component {
           />
           <br />
           <FlatButton onClick={() => this.handleAddFeed()}>Add</FlatButton>
-
         </Paper>
       </div>
     );
@@ -98,4 +100,4 @@ const mapDispatchToProps = dispatch => ({
   addFeed: (uid, name, link) => dispatch(addFeed(uid, name, link)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFeedPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AddFeed);

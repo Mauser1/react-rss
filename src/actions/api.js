@@ -34,3 +34,8 @@ export function databaseSet(path, value) {
     .ref(path)
     .set(value);
 }
+
+export function databaseDelete(path, value) {
+  return firebase.database().ref(`${path}/${value}`).remove();
+}
+

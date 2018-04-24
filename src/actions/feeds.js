@@ -1,5 +1,3 @@
-import firebase from 'firebase';
-
 import {
   ADD_FEED_SUCCESS,
   ADD_FEED_FAILURE,
@@ -8,8 +6,12 @@ import {
   FETCH_FEED_ITEMS_SUCCESS,
   FETCH_FEED_ITEMS_FAILURE,
   FETCH_FEED_LIST_SUCCESS,
+  DELETE_ALL_FEEDS_SUCCESS,
+  DELETE_ALL_FEEDS_FAILURE,
+  DELETE_FEED_SUCCESS,
+  DELETE_FEED_FAILURE,
 } from '../constants/actionTypes';
-import { fetchRss, databasePush } from './api';
+import { fetchRss, databasePush, databaseDelete } from './api';
 
 export function fetchFeedListSuccess(feedList) {
   return {
@@ -18,25 +20,25 @@ export function fetchFeedListSuccess(feedList) {
   };
 }
 
-export function fetchFeedListFailure(error) {
+export function fetchFeedListFailure() {
   return {
     type: FETCH_FEED_LIST_SUCCESS,
-    payload: error,
   };
 }
 // feed util
-export function getFeedListValues(feedObj) {
-  return Object.values(feedObj);
+export function getFeedListValues(feedSnapshot) {
+  const feed = feedSnapshot.val();
+  feed.id = feedSnapshot.key;
+  return (feed);
 }
-export function fetchFeedList(uid) {
-  return dispatch =>
-    firebase
-      .database()
-      .ref(`/users/${uid}/feeds`)
-      .once('value', (snap) => {
-        dispatch(fetchFeedListSuccess(getFeedListValues(snap.val())));
-      })
-      .catch(error => dispatch(fetchFeedListFailure(error)));
+export function receiveFeedList(feedList) {
+  return (dispatch) => {
+    if (feedList) {
+      dispatch(fetchFeedListSuccess(getFeedListValues(feedList)));
+    } else {
+      dispatch(fetchFeedListFailure());
+    }
+  };
 }
 
 export function addFeedSuccess() {
@@ -95,14 +97,53 @@ export function setLatestFeedFailure(error) {
   };
 }
 
-export function setLatestFeed(uid, name, link) {
+export function setLatestFeed(name, link) {
   const feedEntry = { name, link };
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { uid } = getState().common.currentUser;
     databasePush(`/users/${uid}/latest/`, feedEntry)
       .then(() => dispatch(setLatestFeedSuccess(feedEntry)))
       .catch((error) => {
         dispatch(setLatestFeedFailure(error));
         console.log(error);
       });
+  };
+}
+
+function deleteFeedSuccess(feedId) {
+  return { type: DELETE_FEED_SUCCESS, payload: feedId };
+}
+
+
+function deleteFeedFailure() {
+  return { type: DELETE_FEED_FAILURE };
+}
+export function deleteFeed(feedId) {
+  return (dispatch, getState) => {
+    const { uid } = getState().common.currentUser;
+    databaseDelete(`users/${uid}/feeds/`, feedId)
+      .then(() => dispatch(deleteFeedSuccess(feedId)))
+      .catch(error => dispatch(deleteFeedFailure(error)));
+  };
+}
+
+function deleteAllFeedsSuccess() {
+  return { type: DELETE_ALL_FEEDS_SUCCESS };
+}
+
+function deleteAllFeedsFailure(error) {
+  return {
+    type: DELETE_ALL_FEEDS_FAILURE,
+    payload: error,
+  };
+}
+export function deleteAllFeeds() {
+  return (dispatch, getState) => {
+    const { uid } = getState().common.currentUser;
+    databaseDelete(`users/${uid}`, 'feeds')
+      .then(() => {
+        dispatch(deleteAllFeedsSuccess());
+      })
+      .catch(error => dispatch(deleteAllFeedsFailure(error)));
   };
 }
