@@ -31,6 +31,7 @@ class Appbar extends Component {
         <AppBar
           id="app-bar"
           title="RSS Reader"
+          titleStyle={{ fontSize: 18 }}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonClick={() => this.toggleSideBar()}
         />

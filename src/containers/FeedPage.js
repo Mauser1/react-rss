@@ -37,7 +37,7 @@ class FeedPage extends Component {
         floatingLabelText="Feeds available"
         value={this.state.selectedFeed}
         onChange={this.handleChange}
-        style={{ marginLeft: '20px', width: '90%' }}
+        style={{ marginLeft: '20px', width: '30%' }}
       >
         {this.props.feedList.map(feed => (
           <MenuItem value={feed.link}> {feed.name}</MenuItem>
