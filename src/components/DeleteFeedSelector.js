@@ -80,7 +80,6 @@ class DeleteFeedSelector extends Component {
 }
 
 const mapStateToProps = state => ({
-
   feedList: state.feeds.feedList,
 });
 

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render } from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -11,8 +12,8 @@ const muiTheme = getMuiTheme({
   palette: {
     primary1Color: blue800,
   },
-
 });
+
 const Index = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <div>
