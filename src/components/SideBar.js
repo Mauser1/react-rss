@@ -48,7 +48,7 @@ class SideBar extends Component {
           <div style={styles.header}>
             <Avatar
               style={styles.header.avatar}
-              src={`${this.props.avatar}` || dummyAvatar}
+              src={`${this.props.avatar || dummyAvatar}`}
               size={50}
             />
             <span>{this.props.username || 'None'}</span>
