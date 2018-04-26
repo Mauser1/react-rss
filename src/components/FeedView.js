@@ -12,6 +12,7 @@ const FeedView = ({ feedItems }) => {
     <List>
       {feedItems.map(feed => (
         <ListItem
+          href={feed.link}
           primaryText={feed.title}
           secondaryText={
             <p>
