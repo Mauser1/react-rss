@@ -5,13 +5,8 @@ import { List, ListItem } from 'material-ui/List';
 import { darkBlack } from 'material-ui/styles/colors';
 
 const FeedView = ({ feedItems }) => {
-  // todo if conditional
-  // add link
   if (!feedItems) {
     return null;
-  }
-  if (!feedItems === []) {
-    return <div> no items </div>;
   }
   return (
     <List>
@@ -39,3 +34,4 @@ const mapStateToProps = state => ({
   feedItems: state.feeds.feedItems,
 });
 export default connect(mapStateToProps)(FeedView);
+
