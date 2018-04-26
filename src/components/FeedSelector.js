@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { SelectField, MenuItem } from 'material-ui';
+import { SelectField, MenuItem, CircularProgress } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { setLatestFeed, fetchFeedItems } from '../actions';
 
 class FeedSelector extends Component {
   static propTypes = {
+    listLoaded: PropTypes.bool.isRequired,
     feedList: PropTypes.string.isRequired,
     fetchFeedItems: PropTypes.func.isRequired,
     setLatestFeed: PropTypes.func.isRequired,
@@ -21,9 +22,15 @@ class FeedSelector extends Component {
     this.props.setLatestFeed(feedName, feedLink);
   };
   render() {
+    const { listLoaded, feedList } = this.props;
     const style = {
+      loading: {
+        paddingTop: 10,
+      },
       emptyState: {
-        textAlign: 'center', margin: 'auto', fontSize: 24,
+        textAlign: 'center',
+        margin: 'auto',
+        fontSize: 24,
       },
       title: {
         fontSize: 24,
@@ -35,10 +42,10 @@ class FeedSelector extends Component {
       },
     };
 
-    if (!this.props.feedList) {
-      return <div> Loading...</div>;
+    if (!listLoaded) {
+      return <div style={style.loading}>Loading...<CircularProgress /></div>;
     }
-    if (this.props.feedList.length === 0) {
+    if (feedList.length === 0) {
       return (
         <div style={style.emptyState}>
           <h1 style={style.title}>You have no feeds!  </h1>
@@ -62,6 +69,7 @@ class FeedSelector extends Component {
   }
 }
 const mapStateToProps = state => ({
+  listLoaded: state.common.listLoaded,
   feedList: state.feeds.feedList,
   feedItems: state.feeds.feedItems,
 });
