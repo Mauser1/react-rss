@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { addFeed } from '../actions';
+import globalStyle from '../assets/style';
 
 function isValidName(name) {
   if (name === '') return false;
@@ -18,7 +19,7 @@ function isValidURL(str) {
     '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
     '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$',
+    '(\\#[-a-z\\d_]*)?$',
     'i',
   );
   return pattern.test(str);
@@ -55,26 +56,12 @@ class AddFeed extends Component {
   }
   render() {
     const style = {
-      container: {
-        width: 500,
-        margin: 'auto',
-        paddingTop: 40,
-        paddingBottom: 40,
-        textAlign: 'center',
-      },
-      title: {
-        fontSize: 24,
-        marginBottom: 20,
-        color: '#757575',
-        textAlign: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
-      },
+      paper: { textAlign: 'center', paddingBottom: 20 },
     };
     return (
-      <div style={style.container}>
+      <div style={globalStyle.container}>
         <Paper style={style.paper}>
-          <h2 style={style.title}> Add </h2>
+          <h2 style={globalStyle.title}> Add </h2>
           <TextField
             value={this.state.feedName}
             hintText="Feed Name"

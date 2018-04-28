@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { List, ListItem, Paper, Divider, FlatButton } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
 import toastr from 'toastr';
+import globalStyle from '../assets/style';
 import { deleteFeed, deleteAllFeeds } from '../actions';
 
 
@@ -53,25 +54,10 @@ class DeleteFeedSelector extends Component {
       </div>);
   }
   render() {
-    const style = {
-      container: {
-        width: 500,
-        margin: 'auto',
-        paddingBottom: 40,
-      },
-      title: {
-        fontSize: 24,
-        marginBottom: 20,
-        color: '#757575',
-        textAlign: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
-      },
-    };
     return (
-      <div style={style.container}>
-        <Paper style={style.paper}>
-          <h2 style={style.title}> Delete </h2>
+      <div style={globalStyle.container}>
+        <Paper>
+          <h2 style={globalStyle.title}> Delete </h2>
           {this.renderFeedSelector()}
         </Paper>
       </div>
