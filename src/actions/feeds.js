@@ -10,6 +10,7 @@ import {
   DELETE_ALL_FEEDS_FAILURE,
   DELETE_FEED_SUCCESS,
   DELETE_FEED_FAILURE,
+  CLEAR_FEED_ITEMS,
 } from '../constants/actionTypes';
 import { fetchRss, databasePush, databaseDelete } from './api';
 
@@ -27,6 +28,9 @@ export function fetchFeedListFailure() {
 }
 // feed util
 export function getFeedListValues(feedSnapshot) {
+  if (!feedSnapshot) {
+    return [];
+  }
   const feed = feedSnapshot.val();
   feed.id = feedSnapshot.key;
   return (feed);
@@ -81,6 +85,10 @@ export function fetchFeedItems(link) {
       })
       .catch(error => dispatch(fetchFeedItemsFailure(error)));
   };
+}
+
+export function clearFeedItems() {
+  return ({ type: CLEAR_FEED_ITEMS });
 }
 
 export function setLatestFeedSuccess(feedEntry) {
