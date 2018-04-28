@@ -4,6 +4,8 @@ import {
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
   ADD_FEED_FAILURE,
+  DELETE_FEED_FAILURE,
+  DELETE_ALL_FEEDS_FAILURE,
   FETCH_FEED_LIST_SUCCESS,
 
 } from '../constants/actionTypes';
@@ -38,6 +40,10 @@ const commonReducer = (state = defaultState, action) => {
     case SIGN_OUT_FAILURE:
       return { ...state, error: action.payload };
     case ADD_FEED_FAILURE:
+      return { ...state, error: action.payload };
+    case DELETE_FEED_FAILURE:
+      return { ...state, error: action.payload };
+    case DELETE_ALL_FEEDS_FAILURE:
       return { ...state, error: action.payload };
     case FETCH_FEED_LIST_SUCCESS:
       return { ...state, listLoaded: true };

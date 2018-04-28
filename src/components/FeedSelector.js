@@ -58,7 +58,7 @@ class FeedSelector extends Component {
           floatingLabelText="Feeds available"
           value={this.state.selectedFeed}
           onChange={this.handleChange}
-          style={{ marginLeft: '20px', width: '30%' }}
+          style={{ marginLeft: '40px', width: '60%' }}
         >
           {this.props.feedList.map(feed => (
             <MenuItem value={feed.link}> {feed.name}</MenuItem>
