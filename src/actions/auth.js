@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import { firebaseAuth, GoogleAuthProvider } from '../config';
 import {
   SIGN_IN_SUCCESS,
@@ -6,21 +7,26 @@ import {
   SIGN_OUT_FAILURE,
 } from '../constants/actionTypes';
 
-
+/* eslint-disable */
 export function signInSuccess(signInData) {
-  const currentUser = {
-    username: signInData.displayName,
-    avatar: signInData.photoURL,
-    uid: signInData.uid,
-  };
-  const payload = {
-    currentUser,
-  };
-  return {
-    type: SIGN_IN_SUCCESS,
-    payload,
-  };
+  return dispatch => {
+    const currentUser = {
+      username: signInData.displayName,
+      avatar: signInData.photoURL,
+      uid: signInData.uid,
+    };
+    const payload = {
+      currentUser,
+    };
+    return firebase.database().ref(`users/${signInData.uid}/info`).set(currentUser)
+      .then(() => dispatch({
+          type: SIGN_IN_SUCCESS,
+          payload,
+        }));
+  }
 }
+
+/* eslint-enable */
 export function signInFailure(error) {
   return {
     type: SIGN_IN_FAIL,

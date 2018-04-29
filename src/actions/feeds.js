@@ -2,8 +2,6 @@ import firebase from 'firebase';
 import {
   ADD_FEED_SUCCESS,
   ADD_FEED_FAILURE,
-  SET_LATEST_FEED_SUCCESS,
-  SET_LATEST_FEED_FAILURE,
   FETCH_FEED_ITEMS_SUCCESS,
   FETCH_FEED_ITEMS_FAILURE,
   FETCH_FEED_LIST_SUCCESS,
@@ -29,7 +27,7 @@ export function fetchFeedListFailure() {
 }
 // feed util
 export function getFeedListValues(values) {
-  if (values === []) {
+  if (!values) {
     return [];
   }
   const feed = values.val();
@@ -43,6 +41,19 @@ export function receiveFeedList(feedList) {
     } else {
       dispatch(fetchFeedListFailure());
     }
+  };
+}
+/* eslint-disable */
+
+function handleSnapshot(ss){
+  console.log(Object.values(ss.val()))
+  return Object.values(ss.val())
+}
+
+export function getFeedsOnce(uid) {
+  return dispatch => {
+    firebase.database().ref(`users/${uid}/feeds`).once('value')
+      .then(snapshot => dispatch(fetchFeedListSuccess(handleSnapshot(snapshot))));
   };
 }
 
@@ -100,32 +111,6 @@ export function fetchFeedItems(link) {
 
 export function clearFeedItems() {
   return ({ type: CLEAR_FEED_ITEMS });
-}
-
-export function setLatestFeedSuccess(feedEntry) {
-  return {
-    type: SET_LATEST_FEED_SUCCESS,
-    payload: feedEntry,
-  };
-}
-
-export function setLatestFeedFailure(error) {
-  return {
-    type: SET_LATEST_FEED_FAILURE,
-    payload: error,
-  };
-}
-
-export function setLatestFeed(name, link) {
-  const feedEntry = { name, link };
-  return (dispatch, getState) => {
-    const { uid } = getState().common.currentUser;
-    databasePush(`/users/${uid}/latest/`, feedEntry)
-      .then(() => dispatch(setLatestFeedSuccess(feedEntry)))
-      .catch((error) => {
-        dispatch(setLatestFeedFailure(error));
-      });
-  };
 }
 
 function deleteFeedSuccess(feedId) {

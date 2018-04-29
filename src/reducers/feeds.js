@@ -6,7 +6,7 @@ import {
   CLEAR_FEED_ITEMS,
 } from '../constants/actionTypes';
 
-const defaultFeeds = { feedList: [], latest: null, feedItems: [] };
+const defaultFeeds = { feedList: [], feedItems: [] };
 
 const feedReducer = (state = defaultFeeds, action) => {
   switch (action.type) {

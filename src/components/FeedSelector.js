@@ -4,22 +4,18 @@ import { connect } from 'react-redux';
 
 import { SelectField, MenuItem, CircularProgress } from 'material-ui';
 import { Link } from 'react-router-dom';
-import { setLatestFeed, fetchFeedItems } from '../actions';
+import { fetchFeedItems } from '../actions';
 
 class FeedSelector extends Component {
   static propTypes = {
     listLoaded: PropTypes.bool.isRequired,
     feedList: PropTypes.array.isRequired,
     fetchFeedItems: PropTypes.func.isRequired,
-    setLatestFeed: PropTypes.func.isRequired,
   }
   state = { selectedFeed: '' };
   handleChange = (e, index, value) => {
-    const feedName = e.target.innerHTML;
     const feedLink = value;
-
     this.props.fetchFeedItems(feedLink);
-    this.props.setLatestFeed(feedName, feedLink);
   };
   render() {
     const { listLoaded, feedList } = this.props;
@@ -75,7 +71,5 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   fetchFeedItems: feedLink => dispatch(fetchFeedItems(feedLink)),
-  setLatestFeed: (feedName, feedLink) =>
-    dispatch(setLatestFeed(feedName, feedLink)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FeedSelector);
