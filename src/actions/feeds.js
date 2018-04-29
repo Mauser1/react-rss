@@ -113,7 +113,6 @@ export function setLatestFeed(name, link) {
       .then(() => dispatch(setLatestFeedSuccess(feedEntry)))
       .catch((error) => {
         dispatch(setLatestFeedFailure(error));
-        console.log(error);
       });
   };
 }

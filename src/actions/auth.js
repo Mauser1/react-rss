@@ -4,14 +4,8 @@ import {
   SIGN_IN_FAIL,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
-  AUTH_INITIALIZATION_DONE,
 } from '../constants/actionTypes';
 
-export function authInitializedDone() {
-  return {
-    type: AUTH_INITIALIZATION_DONE,
-  };
-}
 
 export function signInSuccess(signInData) {
   const currentUser = {
