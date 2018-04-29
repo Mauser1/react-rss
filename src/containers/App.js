@@ -4,27 +4,24 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import firebase from 'firebase';
-import { signInSuccess, receiveFeedList } from '../actions';
+import { signInSuccess, receiveFeedList, listenToFeedChanges } from '../actions';
 import Appbar from '../components/Appbar';
 import SideBar from '../components/SideBar';
 import data from '../assets/data';
 
 class App extends Component {
   static propTypes = {
-    uid: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.element.isRequired,
     signedIn: PropTypes.bool.isRequired,
     signInSuccess: PropTypes.func.isRequired,
-    receiveFeedList: PropTypes.func.isRequired,
+    listenToFeedChanges: PropTypes.func.isRequired,
   };
   componentDidMount() {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.signInSuccess(user);
       }
-      firebase.database().ref(`users/${this.props.uid}/feeds`).on('child_added', (values) => {
-        this.props.receiveFeedList(values);
-      });
+      this.props.listenToFeedChanges();
     });
   }
   componentWillUnmount() {
@@ -48,5 +45,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   signInSuccess: signInData => dispatch(signInSuccess(signInData)),
   receiveFeedList: feedList => dispatch(receiveFeedList(feedList)),
+  listenToFeedChanges: () => dispatch(listenToFeedChanges()),
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

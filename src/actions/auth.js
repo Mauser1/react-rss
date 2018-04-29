@@ -28,6 +28,13 @@ export function signInFailure(error) {
   };
 }
 
+export function signOutSuccess() {
+  return { type: SIGN_OUT_SUCCESS };
+}
+
+export function signOutFailure(signOutData) {
+  return { type: SIGN_OUT_FAILURE, payload: signOutData };
+}
 
 export function authenticate(provider) {
   return (dispatch) => {
@@ -37,21 +44,11 @@ export function authenticate(provider) {
       .catch(error => dispatch(signInFailure(error)));
   };
 }
+
 export function signInWithGoogle() {
   return authenticate(GoogleAuthProvider);
 }
-export function handleSignIn() {
-  return signInWithGoogle();
-}
 
-
-export function signOutSuccess() {
-  return { type: SIGN_OUT_SUCCESS };
-}
-
-export function signOutFailure(signOutData) {
-  return { type: SIGN_OUT_FAILURE, payload: signOutData };
-}
 
 export function signOut() {
   return firebaseAuth().signOut();
@@ -60,7 +57,7 @@ export function signOut() {
 export function handleSignOut() {
   return (dispatch) => {
     firebaseAuth().signOut()
-      .then(result => dispatch(signOutSuccess(result)))
+      .then(() => dispatch(signOutSuccess()))
       .catch(error => dispatch(signOutFailure(error)));
   };
 }

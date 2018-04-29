@@ -28,13 +28,6 @@ export function databasePush(path, value) {
   });
 }
 
-export function databaseSet(path, value) {
-  return firebase
-    .database()
-    .ref(path)
-    .set(value);
-}
-
 export function databaseDelete(path, value) {
   return firebase.database().ref(`${path}/${value}`).remove();
 }

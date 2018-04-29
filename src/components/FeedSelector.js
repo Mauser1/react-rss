@@ -9,7 +9,7 @@ import { setLatestFeed, fetchFeedItems } from '../actions';
 class FeedSelector extends Component {
   static propTypes = {
     listLoaded: PropTypes.bool.isRequired,
-    feedList: PropTypes.string.isRequired,
+    feedList: PropTypes.array.isRequired,
     fetchFeedItems: PropTypes.func.isRequired,
     setLatestFeed: PropTypes.func.isRequired,
   }

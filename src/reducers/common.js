@@ -7,7 +7,6 @@ import {
   DELETE_FEED_FAILURE,
   DELETE_ALL_FEEDS_FAILURE,
   FETCH_FEED_LIST_SUCCESS,
-
 } from '../constants/actionTypes';
 
 const defaultState = {

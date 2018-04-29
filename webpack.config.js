@@ -6,21 +6,26 @@ module.exports = {
   entry: ['./src/index.js'],
   module: {
     rules: [{
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: ['babel-loader', 'eslint-loader'],
-    },
-    {
-      test: /\.html$/,
-      use: [{
-        loader: 'html-loader',
-        options: { minimize: true },
-      }],
-    },
-    {
-      test: /\.css$/,
-      use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-    },
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['eslint-loader'],
+      },
+      {
+        test: /\.html$/,
+        use: [{
+          loader: 'html-loader',
+          options: { minimize: true },
+        }],
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+      },
     ],
   },
   resolve: {

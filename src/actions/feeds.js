@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import {
   ADD_FEED_SUCCESS,
   ADD_FEED_FAILURE,
@@ -27,12 +28,12 @@ export function fetchFeedListFailure() {
   };
 }
 // feed util
-export function getFeedListValues(feedSnapshot) {
-  if (!feedSnapshot) {
+export function getFeedListValues(values) {
+  if (values === []) {
     return [];
   }
-  const feed = feedSnapshot.val();
-  feed.id = feedSnapshot.key;
+  const feed = values.val();
+  feed.id = values.key;
   return (feed);
 }
 export function receiveFeedList(feedList) {
@@ -42,6 +43,16 @@ export function receiveFeedList(feedList) {
     } else {
       dispatch(fetchFeedListFailure());
     }
+  };
+}
+
+// listen to feed changes
+export function listenToFeedChanges() {
+  return (dispatch, getState) => {
+    const { uid } = getState().common.currentUser;
+    firebase.database().ref(`users/${uid}/feeds`).on('child_added', (values) => {
+      dispatch(receiveFeedList(values));
+    });
   };
 }
 
