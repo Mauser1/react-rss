@@ -5,8 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "build": "webpack --mode production",
-    "lint": "./node_modules/.bin/eslint .",
-    "lintfix": "./node_modules/.bin/eslint . --fix"
+    "lint": "./node_modules/.bin/eslint src",
+    "lintfix": "./node_modules/.bin/eslint src --fix"
   },
   "author": "mauser",
   "license": "ISC",

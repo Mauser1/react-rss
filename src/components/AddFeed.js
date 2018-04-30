@@ -28,7 +28,6 @@ function isValidURL(str) {
 class AddFeed extends Component {
   static propTypes = {
     addFeed: PropTypes.func.isRequired,
-    uid: PropTypes.string.isRequired,
   };
   state = {
     feedName: '',
@@ -40,7 +39,6 @@ class AddFeed extends Component {
     });
   };
   handleAddFeed() {
-    const { uid } = this.props;
     const { feedName, feedLink } = this.state;
     if (!isValidName(feedName)) {
       toastr.warning('Empty name');
@@ -50,7 +48,7 @@ class AddFeed extends Component {
       toastr.warning('Invalid link form');
       return;
     }
-    this.props.addFeed(uid, feedName, feedLink);
+    this.props.addFeed(feedName, feedLink);
     toastr.success('Feed added');
     this.setState({ feedName: '', feedLink: '' });
   }
@@ -82,9 +80,8 @@ class AddFeed extends Component {
     );
   }
 }
-const mapStateToProps = state => ({ uid: state.common.currentUser.uid });
 const mapDispatchToProps = dispatch => ({
-  addFeed: (uid, name, link) => dispatch(addFeed(uid, name, link)),
+  addFeed: (name, link) => dispatch(addFeed(name, link)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFeed);
+export default connect(null, mapDispatchToProps)(AddFeed);

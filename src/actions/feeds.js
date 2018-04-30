@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import { fbDatabase } from '../config';
 import {
   ADD_FEED_SUCCESS,
   ADD_FEED_FAILURE,
@@ -13,6 +13,31 @@ import {
 } from '../constants/actionTypes';
 import { fetchRss, databasePush, databaseDelete } from './api';
 
+// utils
+
+
+export function getFeedListValues(values) {
+  const feed = values.val();
+  feed.id = values.key;
+  return (feed);
+}
+
+// this handles snapshot of feed key-val pairs
+function handleSnapshot(snap) {
+  // check if feed value exists!
+  const feedArray = [];
+  const exists = (snap.val() !== null);
+  if (exists) {
+    snap.forEach((childSnap) => {
+      const feed = getFeedListValues(childSnap);
+      feedArray.push(feed);
+    });
+  }
+  return feedArray;
+}
+
+// functions
+
 export function fetchFeedListSuccess(feedList) {
   return {
     type: FETCH_FEED_LIST_SUCCESS,
@@ -25,14 +50,12 @@ export function fetchFeedListFailure() {
     type: FETCH_FEED_LIST_SUCCESS,
   };
 }
-// feed util
-export function getFeedListValues(values) {
-  if (!values) {
-    return [];
-  }
-  const feed = values.val();
-  feed.id = values.key;
-  return (feed);
+
+export function getFeedsOnce(uid) {
+  return (dispatch) => {
+    fbDatabase.ref(`users/${uid}/feeds`).once('value')
+      .then(snapshot => dispatch(fetchFeedListSuccess(handleSnapshot(snapshot))));
+  };
 }
 export function receiveFeedList(feedList) {
   return (dispatch) => {
@@ -43,28 +66,12 @@ export function receiveFeedList(feedList) {
     }
   };
 }
-/* eslint-disable */
-
-function handleSnapshot(ss){
-  console.log(Object.values(ss.val()))
-  return Object.values(ss.val())
-}
-
-export function getFeedsOnce(uid) {
-  return dispatch => {
-    firebase.database().ref(`users/${uid}/feeds`).once('value')
-      .then(snapshot => dispatch(fetchFeedListSuccess(handleSnapshot(snapshot))));
-  };
-}
 
 // listen to feed changes
-export function listenToFeedChanges() {
-  return (dispatch, getState) => {
-    const { uid } = getState().common.currentUser;
-    firebase.database().ref(`users/${uid}/feeds`).on('child_added', (values) => {
-      dispatch(receiveFeedList(values));
-    });
-  };
+export function listenToFeedChanges(uid) {
+  return dispatch => fbDatabase.ref(`users/${uid}/feeds`).on('child_added', (values) => {
+    dispatch(receiveFeedList(values));
+  });
 }
 
 export function addFeedSuccess() {
@@ -80,9 +87,10 @@ export function addFeedFailure(error) {
   };
 }
 
-export function addFeed(uid, name, link) {
+export function addFeed(name, link) {
   const feed = { link, name };
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { uid } = getState().common.currentUser;
     databasePush(`/users/${uid}/feeds/`, feed)
       .then(() => dispatch(addFeedSuccess()))
       .catch((error) => {

@@ -12,7 +12,6 @@ const dummyAvatar = 'https://firebasestorage.googleapis.com/v0/b/rss-reader-1.ap
 class SideBar extends Component {
   static propTypes = {
     sideBar: PropTypes.bool.isRequired,
-    /* eslint react/forbid-prop-types: 0 */
     menus: PropTypes.array.isRequired,
     closeSideBar: PropTypes.func.isRequired,
     openSideBar: PropTypes.func.isRequired,
@@ -59,11 +58,8 @@ class SideBar extends Component {
               /* Todo:  add unique index */
                 primaryText={menu.text}
                 leftIcon={menu.icon}
-                /* Todo: Add navigatable href */
-                /* eslint-disable */
-                onClick={()=>this.toggleSidebar()}
-               containerElement={<Link to={menu.link} />}
-                /* eslint-enable */
+                onClick={() => this.toggleSidebar()}
+                containerElement={<Link to={menu.link} />}
               />
             ))}
           </div>
