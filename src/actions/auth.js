@@ -6,6 +6,7 @@ import {
   SIGN_OUT_FAILURE,
 } from '../constants/actionTypes';
 
+// sets info on sign in
 export function signInSuccess(signInData) {
   return (dispatch) => {
     const currentUser = {
@@ -23,7 +24,7 @@ export function signInSuccess(signInData) {
       }));
   };
 }
-/* eslint-enable */
+
 export function signInFailure(error) {
   return {
     type: SIGN_IN_FAIL,
@@ -31,11 +32,11 @@ export function signInFailure(error) {
   };
 }
 
-export function signOutSuccess() {
+function signOutSuccess() {
   return { type: SIGN_OUT_SUCCESS };
 }
 
-export function signOutFailure(signOutData) {
+function signOutFailure(signOutData) {
   return { type: SIGN_OUT_FAILURE, payload: signOutData };
 }
 
@@ -64,7 +65,3 @@ export function handleSignOut() {
       .catch(error => dispatch(signOutFailure(error)));
   };
 }
-
-
-// listen to auth changes
-

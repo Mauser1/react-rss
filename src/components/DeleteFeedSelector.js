@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { List, ListItem, Paper, Divider, FlatButton } from 'material-ui';
+import PropTypes from 'prop-types';
 import Delete from 'material-ui/svg-icons/action/delete';
 import toastr from 'toastr';
 import globalStyle from '../assets/style';

@@ -12,11 +12,9 @@ import {
 const defaultState = {
   appName: 'RSS Reader',
   signedIn: false,
-  token: null,
-  viewChangeCounter: 0,
   listLoaded: false,
   currentUser: {
-    username: 'Test_User',
+    username: 'None',
     avatar: 'https://firebasestorage.googleapis.com/v0/b/rss-reader-1.appspot.com/o/user.png?alt=media&token=473e0481-453d-45c3-95a6-ed53d7544d40',
     uid: null,
   },
