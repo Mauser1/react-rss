@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { authListener } from '../actions';
 import Appbar from '../components/Appbar';
 import SideBar from '../components/SideBar';
+import { authListener } from '../actions';
 import data from '../assets/data';
 
 

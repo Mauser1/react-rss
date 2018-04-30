@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { AppBar } from 'material-ui';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SIDE_BAR_OPEN, SIDE_BAR_CLOSE } from '../constants/actionTypes';
+import { openSideBar, closeSideBar } from '../actions';
 
 
 const mapStateToProps = state => ({
   sideBar: state.ui.sideBar,
 });
 const mapDispatchToProps = dispatch => ({
-  openSideBar: () => dispatch({ type: SIDE_BAR_OPEN }),
-  closeSideBar: () => dispatch({ type: SIDE_BAR_CLOSE }),
+  openSideBar: () => dispatch(openSideBar()),
+  closeSideBar: () => dispatch(closeSideBar()),
 });
 class Appbar extends Component {
   static propTypes = {
