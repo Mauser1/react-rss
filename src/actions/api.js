@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { fbDatabase, fbAuth } from '../config';
-import { signInSuccess, listenToFeedChanges } from '../actions';
+import { fbDatabase } from '../config';
 
 export function fetchRss(url) {
   let feedUrl;
@@ -28,26 +27,7 @@ export function databasePush(path, value) {
   });
 }
 
+
 export function databaseDelete(path, value) {
   return fbDatabase.ref(`${path}/${value}`).remove();
-}
-
-export function databaseListener(path, callback) {
-  return fbDatabase.ref(path).on('child_added', (snapshot) => {
-    callback(snapshot.val());
-  });
-}
-
-// main listener
-export function authListener() {
-  return (dispatch) => {
-    fbAuth.onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(signInSuccess(user))
-          .then(() => {
-            dispatch(listenToFeedChanges(user.uid));
-          });
-      }
-    });
-  };
 }

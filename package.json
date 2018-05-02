@@ -4,6 +4,7 @@
   "description": "RSS Reader with React and Material-UI",
   "scripts": {
     "start": "node server.js",
+    "dev": "webpack-dev-server --mode development",
     "build": "webpack --mode production && yarn start",
     "postinstall":"webpack --mode production",
     "lint": "./node_modules/.bin/eslint src",

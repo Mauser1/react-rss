@@ -1,15 +1,14 @@
-import { fbDatabase } from '../config';
 import {
   ADD_FEED_SUCCESS,
   ADD_FEED_FAILURE,
   FETCH_FEED_ITEMS_SUCCESS,
   FETCH_FEED_ITEMS_FAILURE,
-  FETCH_FEED_LIST_SUCCESS,
   DELETE_ALL_FEEDS_SUCCESS,
   DELETE_ALL_FEEDS_FAILURE,
   DELETE_FEED_SUCCESS,
   DELETE_FEED_FAILURE,
   CLEAR_FEED_ITEMS,
+  UPDATED_FEED_LIST,
 } from '../constants/actionTypes';
 import { fetchRss, databasePush, databaseDelete } from './api';
 
@@ -28,7 +27,7 @@ function addFeedFailure(error) {
 }
 
 export function addFeed(name, link) {
-  const feed = { link, name };
+  const feed = { name, link };
   return (dispatch, getState) => {
     const { uid } = getState().common.currentUser;
     databasePush(`/users/${uid}/feeds/`, feed)
@@ -60,43 +59,31 @@ export function fetchFeedItems(link) {
   };
 }
 
-// fetch feed list
+// update feed list
 
-function fetchFeedListSuccess(feedList) {
+function updatedFeedList(feedList) {
   return {
-    type: FETCH_FEED_LIST_SUCCESS,
+    type: UPDATED_FEED_LIST,
     payload: feedList,
   };
 }
+// converts firebase key-val objs to objs with id
 
-function fetchFeedListFailure() {
-  return {
-    type: FETCH_FEED_LIST_SUCCESS,
-  };
-}
-
-// converts firebase key-val obj to obj with id
-function getFeedListValues(values) {
-  const feed = values.val();
-  feed.id = values.key;
-  return (feed);
-}
-
-function receiveFeedList(feedList) {
+export function updateFeedList(snapshot) {
   return (dispatch) => {
-    if (feedList) {
-      dispatch(fetchFeedListSuccess(getFeedListValues(feedList)));
-    } else {
-      dispatch(fetchFeedListFailure());
+    const newFeedList = [];
+    if (snapshot.val()) {
+      Object.keys(snapshot.val()).forEach((key, idx) => {
+        let feed = {};
+        feed = Object.values(snapshot.val())[idx];
+        feed.id = key;
+        newFeedList.push(feed);
+      });
+      dispatch(updatedFeedList(newFeedList));
     }
   };
 }
-// function needed for main listener
-export function listenToFeedChanges(uid) {
-  return dispatch => fbDatabase.ref(`users/${uid}/feeds`).on('child_added', (values) => {
-    dispatch(receiveFeedList(values));
-  });
-}
+
 
 // clear feed item articles
 
@@ -145,4 +132,3 @@ export function deleteAllFeeds() {
       .catch(error => dispatch(deleteAllFeedsFailure(error)));
   };
 }
-

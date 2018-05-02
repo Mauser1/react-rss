@@ -4,6 +4,7 @@ import { List, ListItem, Paper, Divider, FlatButton } from 'material-ui';
 import PropTypes from 'prop-types';
 import Delete from 'material-ui/svg-icons/action/delete';
 import toastr from 'toastr';
+
 import globalStyle from '../assets/style';
 import { deleteFeed, deleteAllFeeds } from '../actions';
 
@@ -14,7 +15,6 @@ class DeleteFeedSelector extends Component {
     deleteFeed: PropTypes.func.isRequired,
     deleteAllFeeds: PropTypes.func.isRequired,
   };
-  /* eslint-disable react/jsx-boolean-value */
   handleDeleteAll() {
     if (window.confirm('Are you sure you want to delete all feeds?')) {
       this.props.deleteAllFeeds();
@@ -34,7 +34,7 @@ class DeleteFeedSelector extends Component {
           secondaryText={feed.link}
           onClick={() => this.handleDelete(feed.id)}
         />
-        <Divider inset={true} />
+        <Divider inset />
       </span>
     ));
   }

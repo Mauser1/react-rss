@@ -6,7 +6,7 @@ import {
   ADD_FEED_FAILURE,
   DELETE_FEED_FAILURE,
   DELETE_ALL_FEEDS_FAILURE,
-  FETCH_FEED_LIST_SUCCESS,
+  UPDATED_FEED_LIST,
 } from '../constants/actionTypes';
 
 const defaultState = {
@@ -42,7 +42,7 @@ const commonReducer = (state = defaultState, action) => {
       return { ...state, error: action.payload };
     case DELETE_ALL_FEEDS_FAILURE:
       return { ...state, error: action.payload };
-    case FETCH_FEED_LIST_SUCCESS:
+    case UPDATED_FEED_LIST:
       return { ...state, listLoaded: true };
     default:
       return state;
