@@ -69,18 +69,18 @@ function updatedFeedList(feedList) {
 }
 // converts firebase key-val objs to objs with id
 
-export function updateFeedList(snapshot) {
+export function handleFeedListUpdate(snapshot) {
   return (dispatch) => {
     const newFeedList = [];
-    if (snapshot.val()) {
+    if (snapshot.exists()) {
       Object.keys(snapshot.val()).forEach((key, idx) => {
         let feed = {};
         feed = Object.values(snapshot.val())[idx];
         feed.id = key;
         newFeedList.push(feed);
       });
-      dispatch(updatedFeedList(newFeedList));
     }
+    dispatch(updatedFeedList(newFeedList));
   };
 }
 
